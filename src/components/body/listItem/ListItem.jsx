@@ -36,16 +36,15 @@ export const ListItem = ({id, title, index, exchangeItems}) => {
         },
     });
 
-    const [{isDragging}, drag] = useDrag({
+    const [, drag] = useDrag({
         item: {type: 'listItem', id, index},
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
     });
-    const opacity = isDragging ? 0 : 1;
     drag(drop(ref));
     return (
-        <ul ref={drag(drop(ref))} className={done ? styles.taskDone : styles.task} style={{opacity}}>
+        <ul ref={drag(drop(ref))} className={done ? styles.taskDone : styles.task}>
             <div key={id} draggable={true} onClick={() => setRefactoredId(id)}
                  style={{'display': 'flex', 'alignItems': 'center'}}>
                 {id === refactoredId ?
