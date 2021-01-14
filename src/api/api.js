@@ -21,5 +21,11 @@ export const api = {
 
     updateTitleTask (id, newTitleTask) {
         return instance.put(`/todo-lists/${id}`, {title: newTitleTask})
-    }
+    },
+
+    // login (email, password) {
+    //     return instance.post(`/auth/login`, {email, password})
+    // }
 }
+
+// api.login( 'free@samuraijs.com', 'free')

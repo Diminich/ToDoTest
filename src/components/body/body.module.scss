@@ -1,10 +1,53 @@
 .wrapperBody {
-  margin-left: 5px;
-  .wrapperTask {
-    height: 40px;
-    width: 100%;
-    display: flex;
-    align-items: center;
+  height: 95%;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid red;
+  border-radius: 10px;
 
+  .wrapperTask {
+    height: 90%;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+
+    .task {
+      height: 5%;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid #372399;
+      border-radius: 30px;
+    }
+
+    .inputCheckboxInputButton {
+      width: 10%;
+      margin-right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      .deleteButton {
+        height: 20px;
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        background-color: #372399;
+        color: white;
+        transition: background-color .5s, color .2s;
+
+        &.deleteButton:hover {
+          background-color: #efecec;
+          color: #372399;
+          transition: background-color .5s, color .2s;
+        }
+      }
+    }
+
+    .taskDone {
+      @extend .task;
+      opacity: 0.4;
+    }
   }
 }

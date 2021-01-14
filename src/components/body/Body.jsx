@@ -1,40 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import styles from './body.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {requestDeleteTask, requestGetTask, requestPutTask} from "../../redux/task-reducer";
+import {ListItem} from "./listItem/ListItem";
+import update from 'immutability-helper';
+import {requestGetTask, setTasks} from "../../redux/task-reducer";
+import TitleTask from "./titleTask/TitleTask";
 
 const Body = () => {
-    const [newTitleTask, setNewTitleTask] = useState('');
-    const [refactoredId, setRefactoredId] = useState(null);
-    const getTasks = useSelector(state => state.taskPage.tasks);
     const dispatch = useDispatch();
-    const deleteTask = (id) => {
-        dispatch(requestDeleteTask(id));
-    }
-
-    const updateTitleTask = (id) => {
-        dispatch(requestPutTask(id, newTitleTask))
-        setRefactoredId(null)
-    }
+    const listToDoes = useSelector(state => state.taskPage.tasks);
 
     useEffect(() => {
         dispatch(requestGetTask());
-    }, [refactoredId])
+    }, [])
+
+
+    const exchangeItems = useCallback((dragIndex, hoverIndex) => {
+        const dragCard = listToDoes[dragIndex];
+        dispatch(setTasks(update(listToDoes, {
+            $splice: [
+                [dragIndex, 1],
+                [hoverIndex, 0, dragCard],
+            ],
+        })));
+    }, [listToDoes]);
+
+    const ListItems = listToDoes.map((item, index)  => <ListItem key={item.id} {...item} index={index} exchangeItems={exchangeItems}/>)
 
     return (
         <div className={styles.wrapperBody}>
-            {getTasks.map(({id, title}) => (
-                <div className={styles.wrapperTask}>
-                    <div key={id} onClick={() => setRefactoredId(id)}>
-                        {id === refactoredId ?
-                            <input value={newTitleTask} autoFocus={true} onBlur={() => updateTitleTask(id)}
-                                   onChange={(e) => setNewTitleTask(e.currentTarget.value)}/>
-                            : title}
-                    </div>
-                    <input type='checkbox' />
-                    <button onClick={() => deleteTask(id)}>X</button>
-                </div>
-            ))}
+            <TitleTask/>
+            <div className={styles.wrapperTask}>{ListItems}</div>
         </div>
     )
 }

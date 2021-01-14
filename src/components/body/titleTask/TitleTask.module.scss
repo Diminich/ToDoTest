@@ -1,0 +1,43 @@
+.wrapperTitleTask {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+
+  .wrapperInputErrorMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .inputTitle {
+      border-radius: 15px;
+      padding-left: 5px;
+      border: 1px solid #372399;
+      outline: none;
+    }
+
+    .errorInput {
+      @extend .inputTitle;
+      border: 1px solid red;
+    }
+
+    .errorMessage {
+      color: red;
+    }
+  }
+
+  .buttonAddTitle {
+    height: 20px;
+    border-radius: 20px;
+    background-color: #372399;
+    border: none;
+    outline: none;
+    color: white;
+    transition: background-color .5s, color .2s;
+
+    &.buttonAddTitle:hover {
+      background-color: #efecec;
+      color: #372399;
+      transition: background-color .5s, color .2s;
+    }
+  }
+}
