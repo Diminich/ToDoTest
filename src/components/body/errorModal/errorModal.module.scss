@@ -1,0 +1,25 @@
+.wrapperErrorModal {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .addOkButton {
+    height: 35px;
+    width: 100px;
+    border-radius: 15px;
+    background-color: #372399;
+    border: none;
+    outline: none;
+    color: white;
+    transition: background-color 0.5s, color 0.2s;
+
+    &.addOkButton:hover {
+      background-color: #9f9e9e;
+      color: #372399;
+      transition: background-color .5s, color .2s;
+    }
+  }
+}

@@ -5,10 +5,12 @@ import {ListItem} from "./listItem/ListItem";
 import update from 'immutability-helper';
 import {requestGetTask, setTasks} from "../../redux/task-reducer";
 import TitleTask from "./titleTask/TitleTask";
+import ErrorModal from "./errorModal/ErrorModal";
 
 const Body = () => {
     const dispatch = useDispatch();
     const listToDoes = useSelector(state => state.taskPage.tasks);
+    const errorMessage = useSelector(state => state.taskPage.messageError)
 
     useEffect(() => {
         dispatch(requestGetTask());
@@ -25,12 +27,16 @@ const Body = () => {
         })));
     }, [listToDoes]);
 
-    const ListItems = listToDoes.map((item, index)  => <ListItem key={item.id} {...item} index={index} exchangeItems={exchangeItems}/>)
+    const ListItems = listToDoes.map((item, index) => <ListItem key={item.id} {...item} index={index}
+                                                                exchangeItems={exchangeItems}/>)
 
     return (
         <div className={styles.wrapperBody}>
-            <TitleTask/>
-            <div className={styles.wrapperTask}>{ListItems}</div>
+            {errorMessage.length > 1 ? <ErrorModal errorMessage={errorMessage}/> :
+                <>
+                    <TitleTask/>
+                    <div className={styles.wrapperTask}>{ListItems}</div>
+                </>}
         </div>
     )
 }
