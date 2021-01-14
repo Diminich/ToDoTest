@@ -23,7 +23,7 @@ const TitleTask = () => {
             <div className={styles.wrapperInputErrorMessage}>
                 <input className={error ? styles.errorInput : styles.inputTitle} value={titleTask}
                        onChange={(e) => setTitleTask(e.currentTarget.value)}/>
-                {error && <span style={{'color': 'red'}}>Ввидите символ!</span>}
+                {error && <span style={{'color': 'red'}}>Enter character!</span>}
             </div>
             <button className={styles.buttonAddTitle} style={{'marginLeft': 50}} onClick={addTask}>add task</button>
         </div>

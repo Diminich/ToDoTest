@@ -1,7 +1,7 @@
-import styles from "../body.module.scss";
 import React, {useRef, useState} from "react";
+import styles from "../body.module.scss";
 import {useDrag, useDrop} from "react-dnd";
-import {requestDeleteTask, requestGetTask, requestPutTask} from "../../../redux/task-reducer";
+import {requestDeleteTask, requestPutTask} from "../../../redux/task-reducer";
 import {useDispatch} from "react-redux";
 
 export const ListItem = ({id, title, index, exchangeItems}) => {
@@ -16,7 +16,6 @@ export const ListItem = ({id, title, index, exchangeItems}) => {
 
     const updateTitleTask = (id) => {
         dispatch(requestPutTask(id, newTitleTask))
-        dispatch(requestGetTask());
         setRefactoredId(null)
     }
 
@@ -37,16 +36,18 @@ export const ListItem = ({id, title, index, exchangeItems}) => {
         },
     });
 
-    const [, drag] = useDrag({
+    const [{isDragging}, drag] = useDrag({
         item: {type: 'listItem', id, index},
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
     });
+    const opacity = isDragging ? 0 : 1;
     drag(drop(ref));
     return (
-        <ul ref={drag(drop(ref))} className={done ? styles.taskDone : styles.task}>
-            <div key={id} draggable={true} onClick={() => setRefactoredId(id)} style={{'display': 'flex', 'alignItems': 'center'}}>
+        <ul ref={drag(drop(ref))} className={done ? styles.taskDone : styles.task} style={{opacity}}>
+            <div key={id} draggable={true} onClick={() => setRefactoredId(id)}
+                 style={{'display': 'flex', 'alignItems': 'center'}}>
                 {id === refactoredId ?
                     <input value={newTitleTask} autoFocus={true} onBlur={() => updateTitleTask(id)}
                            onChange={(e) => setNewTitleTask(e.currentTarget.value)}/>

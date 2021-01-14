@@ -61,7 +61,7 @@ export const setErrorMessage = (errorMessage) => ({type: SET_ERROR_MESSAGE, erro
 export const requestAddTask = (titleTask) => {
     return async (dispatch) => {
         try {
-            const {data: newTask} = await api.addNewTask(titleTask);
+            await api.addNewTask(titleTask);
             const {data: taskList} = await api.getTasks();
             dispatch(getTask(taskList));
         } catch (error) {
@@ -88,8 +88,8 @@ export const requestGetTask = () => {
 export const requestPutTask = (id, newTitleTask) => {
     return async (dispatch) => {
         try {
-            const {data} = await api.updateTitleTask(id, newTitleTask);
-            dispatch(putTask(data));
+            await api.updateTitleTask(id, newTitleTask);
+            dispatch(requestGetTask())
         } catch (error) {
             dispatch(setErrorMessage(error.message));
         }
