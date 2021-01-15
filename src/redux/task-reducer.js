@@ -3,6 +3,7 @@ import {api} from "../api/api";
 let initialState = {
     tasks: [],
     messageError: '',
+    isLogin: false
 }
 
 const GET_TASKS = 'GET_TASKS';
@@ -10,6 +11,7 @@ const PUT_TASKS = 'PUT_TASKS';
 const DELETE_TASKS = 'DELETE_TASKS';
 const SET_TASKS = 'SET_TASKS';
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
+const SET_LOGIN = 'SET_LOGIN';
 
 const taskReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -48,6 +50,13 @@ const taskReducer = (state = initialState, action) => {
                 messageError: action.errorMessage
             }
         }
+
+        case SET_LOGIN: {
+            return {
+                ...state,
+                isLogin: true
+            }
+        }
     }
     return state;
 }
@@ -57,6 +66,7 @@ export const putTask = (id, newTitleTask) => ({type: PUT_TASKS, id, newTitleTask
 export const deleteTask = (id) => ({type: DELETE_TASKS, id});
 export const setTasks = (tasks) => ({type: SET_TASKS, tasks})
 export const setErrorMessage = (errorMessage) => ({type: SET_ERROR_MESSAGE, errorMessage})
+export const setLogin = () => ({type: SET_LOGIN})
 
 export const requestAddTask = (titleTask) => {
     return async (dispatch) => {
@@ -107,6 +117,15 @@ export const requestDeleteTask = (id) => {
         } catch (error) {
             dispatch(setErrorMessage(error.message));
         }
+    }
+}
+
+export const requestLogin = () => {
+    return async (dispatch) => {
+            const {data} = await api.login('free@samuraijs.com', 'free');
+            if (data.resultCode === 0) {
+                dispatch(setLogin());
+            }
     }
 }
 

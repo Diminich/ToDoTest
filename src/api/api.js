@@ -27,5 +27,3 @@ export const api = {
         return instance.post(`/auth/login`, {email, password})
     }
 }
-
-api.login( 'free@samuraijs.com', 'free')
